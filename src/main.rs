@@ -89,6 +89,10 @@ impl Enigma {
     fn code_decode(&mut self, plain: &str) -> String {
         let mut cipher = String::new();
         for c in plain.chars() {
+            if ALPHABET.find(c).is_none() {
+                eprintln!("invalid input");
+                exit(1);
+            }
             self.state += 1;
             cipher.push(self.enigma_on_char(c));
             self.rotate_rotors();
@@ -117,13 +121,13 @@ fn read_rotors() -> (String, String, String) {
 }
 
 fn main() {
-    let args = env::args();
-    if args.len() < 2 {
+    let args: Vec<String> = env::args().skip(1).collect();
+    if args.len() < 1 {
         eprintln!("Usage:\nenigma words..");
         exit(1);
     }
     let mut enigma = Enigma::new(read_rotors());
-    for word in args.fuse() {
+    for word in args {
         println!("{}", enigma.code_decode(word.as_str()));
     }
 }
