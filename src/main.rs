@@ -53,11 +53,11 @@ impl Enigma {
             .unwrap();
         let c2 = ALPHABET
             .chars()
-            .nth(self.rotors.2.find(c3).unwrap())
+            .nth(self.rotors.1.find(c3).unwrap())
             .unwrap();
         let c1 = ALPHABET
             .chars()
-            .nth(self.rotors.2.find(c2).unwrap())
+            .nth(self.rotors.0.find(c2).unwrap())
             .unwrap();
         c1
     }
