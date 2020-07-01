@@ -107,10 +107,11 @@ fn read_rotors() -> (String, String, String) {
     let mut raw = String::new();
     file.read_to_string(&mut raw).unwrap();
     let rotors: Vec<&str> = raw.split("\n").collect();
-    let r1 = rotors[0].to_string();
-    let r2 = rotors[1].to_string();
-    let r3 = rotors[2].to_string();
-    (r1, r2, r3)
+    (
+        rotors[0].to_string(),
+        rotors[1].to_string(),
+        rotors[2].to_string(),
+    )
 }
 
 fn main() {
