@@ -1,6 +1,5 @@
 use std::fs::File;
 use std::io::prelude::*;
-use std::io::BufReader;
 use std::process::exit;
 
 const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyz ";
@@ -98,20 +97,19 @@ impl Enigma {
 
 fn read_rotors() -> (String, String, String) {
     let file = File::open("today_rotors.enigma");
-    let file = match file {
+    let mut file = match file {
         Ok(file) => file,
         Err(err) => {
             eprintln!("error: {}", err);
             exit(1);
         }
     };
-    let mut buf = BufReader::new(file);
     let mut raw = String::new();
-    buf.read_to_string(&mut raw).unwrap();
-    let rotors: Vec<String> = raw.split("\n").map(|c| c.to_string()).collect();
-    let r1 = rotors[0].clone();
-    let r2 = rotors[1].clone();
-    let r3 = rotors[2].clone();
+    file.read_to_string(&mut raw).unwrap();
+    let rotors: Vec<&str> = raw.split("\n").collect();
+    let r1 = rotors[0].to_string();
+    let r2 = rotors[1].to_string();
+    let r3 = rotors[2].to_string();
     (r1, r2, r3)
 }
 
