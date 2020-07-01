@@ -1,6 +1,7 @@
 use std::fs::File;
 use std::io::prelude::*;
 use std::process::exit;
+use std::env;
 
 const ALPHABET: &str = "abcdefghijklmnopqrstuvwxyz ";
 
@@ -20,7 +21,8 @@ impl Enigma {
     fn reflector(&self, c: char) -> char {
         ALPHABET
             .chars()
-            .nth(ALPHABET.len() - 1 - ALPHABET.find(c).unwrap())
+            .rev()
+            .nth(ALPHABET.find(c).unwrap())
             .unwrap()
     }
 
@@ -115,7 +117,13 @@ fn read_rotors() -> (String, String, String) {
 }
 
 fn main() {
+    let args = env::args();
+    if args.len() < 2 {
+        eprintln!("Usage:\nenigma words..");
+        exit(1);
+    }
     let mut enigma = Enigma::new(read_rotors());
-    println!("hello world");
-    println!("{}", enigma.code_decode("hello world"));
+    for word in args.fuse() {
+        println!("{}", enigma.code_decode(word.as_str()));
+    }
 }
